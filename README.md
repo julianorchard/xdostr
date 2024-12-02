@@ -11,6 +11,10 @@ browser applications or a VM that doesn't have clipboard enabled.
 
 Requires `xclip` and `xdotool`.
 
+```sh
+go install github.com/julianorchard/xdostr@latest
+```
+
 Install from source:
 
 ```sh
