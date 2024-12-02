@@ -1,0 +1,21 @@
+---
+jobs:
+  check:
+    name: 🔎 Run Go Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
+      - name: Go get
+        run: go get -v -t -d ./...
+      - name: Go fmt check
+        run: gofmt -l .
+name: 🔎 Go Checks
+on:
+  pull_request:
+  push:
+    branches: [main]
