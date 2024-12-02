@@ -36,5 +36,5 @@ xdostr "Lorum ipsum"
 From the clipboard!
 
 ```sh
-xdostr $(xclip -o)
+xdostr
 ```
