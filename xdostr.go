@@ -71,7 +71,7 @@ func xdoCommand(c string, additional string) string {
 	return string(stdout)
 }
 
-func parseStdin() (string, bool) {
+func parseStdin() (string, string) {
 	// https://stackoverflow.com/questions/49704456/how-to-read-from-device-when-stdin-is-pipe
 	stat, _ := os.Stdin.Stat()
 	if (stat.Mode() & os.ModeCharDevice) == 0 {
@@ -83,27 +83,25 @@ func parseStdin() (string, bool) {
 		if err := scanner.Err(); err != nil {
 			log.Fatal(err)
 		}
-		return string(stdin), true
+		return string(stdin), "selectwindow"
 	} else if (len(os.Args) > 1) {
-		return strings.Join(os.Args[1:], " "), true
+		return strings.Join(os.Args[1:], " "), "selectwindow"
 	} else {
 		clipboard := exec.Command("xclip", "-o")
 		clipout, err := clipboard.Output()
 		if err != nil {
 			log.Fatal("Clipboard error: " + err.Error())
 		}
-		return string(clipout), false
+		return string(clipout), "getactivewindow"
 	}
 }
 
 func main() {
-	input, compl := parseStdin()
+	input, target := parseStdin()
 
-	if compl {
-		targetWindow := xdoCommand("selectwindow", "")
-		xdoCommand("windowactivate", targetWindow)
-		xdoCommand("windowfocus", targetWindow)
-	}
+	targetWindow := xdoCommand(target, "")
+	xdoCommand("windowactivate", targetWindow)
+	xdoCommand("windowfocus", targetWindow)
 
 	in := sanitizeInput(input)
 
