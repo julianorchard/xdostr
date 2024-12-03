@@ -43,3 +43,9 @@ From the clipboard!
 ```sh
 xdostr
 ```
+
+In [i3wm](https://i3wm.org/):
+
+```sh
+bindsym --release $mod+Ctrl+v exec "xdostr"
+```
